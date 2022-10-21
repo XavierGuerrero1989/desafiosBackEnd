@@ -7,7 +7,7 @@ class User {
     }
 
     getFullName() {
-        return this.nombre + " " + this.apellido
+        console.log("El usuario se llama " + this.nombre + " " + this.apellido + ".") 
     }
 
     addMascota(mascotaN) {
@@ -15,7 +15,7 @@ class User {
     }
 
     countMascotas() {
-        return this.mascotas.length
+       console.log(this.nombre + " tiene " + this.mascotas.length + " mascotas.")
     }
 
     addBook(nombre, autor) {
@@ -23,10 +23,8 @@ class User {
     }
 
     getBookNames() {
-        for (var i = 0; i <= (this.libros.length - 1); i++) {
-           
-            return this.libros[i].nombreLibro;
-          }
+        let bookNames = this.libros.map(nombre => nombre.nombreLibro)
+        console.log(bookNames)
     }
 }
 
@@ -37,9 +35,9 @@ const usuario = new User("Xavier", "Guerrero", "Stepen Hawkins", "A brief Histor
 usuario.addMascota("Pancho")
 usuario.addBook("TLOTR", "J.R.R. Tolkien")
 
-console.log(usuario.getFullName())
-console.log(usuario.countMascotas())
-console.log(usuario.getBookNames())
-console.log(usuario)
+usuario.getFullName()
+usuario.countMascotas()
+usuario.getBookNames()
+
 
 
