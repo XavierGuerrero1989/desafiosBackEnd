@@ -112,10 +112,10 @@ class Contenedor {
         try {
             const archivos = await fs.promises.readFile(`./${this.name}.txt`, 'utf-8')
             const archivoParse = JSON.parse(archivos)
-            const archivoString = JSON.stringify(archivoParse)
+            // const archivoString = JSON.stringify(archivoParse)
             // console.log(archivoParse)
             // elementosDelArray = archivoParse
-            return archivoString
+            return archivoParse
         } catch (error) {
             console.log('El archivo no existe')
         }
@@ -142,7 +142,7 @@ function valorExtraido(funcion) {
       if (!funcion) {
         reject('no se puede')
       } else {
-        resolve(elementosDelArray = funcion)
+        resolve (elementosDelArray = JSON.stringify(funcion) )
       }
     })
    }
@@ -150,7 +150,7 @@ function valorExtraido(funcion) {
 
 valorExtraido (productos.getAllNew()) 
     .then(resultado => {
-        console.log(elementosDelArray) ;
+        elementosDelArray ;
     }) 
     .catch(error => {
         console.log(`error: $(error)`)
@@ -164,7 +164,7 @@ const server = app.listen(PORT, () => {
 server.on("error", error => console.log('Error en servidor $(error)'))
 
     app.get('/productos', (req, res) => {
-    res.send('mensaje: ' + productos.getAll())
+    res.send('mensaje: ' + elementosDelArray)
     // res.send('los productos son ' + elementosDelArray)
 })
 
