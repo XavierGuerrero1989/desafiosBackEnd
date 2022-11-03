@@ -1,10 +1,17 @@
 const fs = require('fs')
 const express = require('express')
 
+const app = express()
+
+const PORT = 8080
+
+
 class Contenedor {
     constructor(name){
         this.name = name
     }
+
+
 
     async save (obj) {
         try {
@@ -93,17 +100,22 @@ class Contenedor {
             if(!productoEncontrado) {
                 throw new Error('No fue encontrado')
             }
-            console.log(productoEncontrado)
+            // console.log(productoEncontrado)
+            // elementosRandom = productoEncontrado
+            return productoEncontrado
         } catch (error) {
             console.log('El archivo no existe', error)
         }
     }
     
-    async getAll () {
+    async getAllNew () {
         try {
             const archivos = await fs.promises.readFile(`./${this.name}.txt`, 'utf-8')
             const archivoParse = JSON.parse(archivos)
-            console.log(archivoParse)
+            const archivoString = JSON.stringify(archivoParse)
+            // console.log(archivoParse)
+            // elementosDelArray = archivoParse
+            return archivoString
         } catch (error) {
             console.log('El archivo no existe')
         }
@@ -111,7 +123,7 @@ class Contenedor {
 
 }
 
-// const productos = new Contenedor('productos')
+const productos = new Contenedor('productos')
 // productos.save({title:'Escuadra', price:123.45, thumbnail: 'thumbEscuadra'})
 // productos.save({title:'Calculadora', price:234.56, thumbnail: 'thumbCalculadora'})
 // productos.save({title:'Globo Terraqueo', price:345.67, thumbnail: 'thumbGlobo'})
@@ -120,20 +132,44 @@ class Contenedor {
 // productos.deleteById(2)
 // productos.deleteAll()
 // productos.getByIdRandom()
+// productos.getAllNew()
 
-const app = express()
+let elementosDelArray = {};
+let elementosRandom = "";
 
-const PORT = 8080
+function valorExtraido(funcion) {
+    return new Promise((resolve, reject) => {
+      if (!funcion) {
+        reject('no se puede')
+      } else {
+        resolve(elementosDelArray = funcion)
+      }
+    })
+   }
+   
+
+valorExtraido (productos.getAllNew()) 
+    .then(resultado => {
+        console.log(elementosDelArray) ;
+    }) 
+    .catch(error => {
+        console.log(`error: $(error)`)
+    })
+    
+
 
 const server = app.listen(PORT, () => {
     console.log('Servidor escuchando en el puerto 8080')
 })
 server.on("error", error => console.log('Error en servidor $(error)'))
 
-app.get('/productos', (req, res) => {
-    res.send({ mensaje: productos.getAll()})
+    app.get('/productos', (req, res) => {
+    res.send('mensaje: ' + productos.getAll())
+    // res.send('los productos son ' + elementosDelArray)
 })
 
-app.get('/productoRandom', (req, res) => {
-    res.send({ mensaje: productos.getByIdRandom()})
-})
+
+
+// app.get('/productoRandom', (req, res) => {
+//     res.send(productos.getByIdRandom())
+// })
