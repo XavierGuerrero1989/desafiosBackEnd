@@ -175,22 +175,3 @@ const server = app.listen(PORT, () => {
 server.on("error", error => console.error(`Error en el servidor ${error}`));
 
    
-
-
-// const server = app.listen(PORT, () => {
-//     console.log('Servidor escuchando en el puerto 8080')
-// })
-// server.on("error", error => console.log('Error en servidor $(error)'))
-
-//     app.get('/productos', (req, res) => {
-//     res.send('mensaje: ' + elementosDelArray)
-//     // res.send('los productos son ' + elementosDelArray)
-// })
-
-
-
-// app.get('/productoRandom', (req, res) => {
-//     res.send(productos.getByIdRandom())
-// })
-
-
