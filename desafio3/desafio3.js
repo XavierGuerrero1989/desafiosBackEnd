@@ -47,7 +47,8 @@ class Contenedor {
         try {
             const archivos = await fs.promises.readFile(`./${this.name}.txt`, 'utf-8')
             const archivoParse = JSON.parse(archivos)
-            console.log(archivoParse)
+            const archivoString = JSON.stringify(archivoParse)
+            return archivoString
         } catch (error) {
             console.log('El archivo no existe')
         }
@@ -88,23 +89,23 @@ class Contenedor {
 
     // FUNCION ESPECIFICA PARA BUSCAR POR ID RANDOM, CUYO INTERVALO NO SE PASE DE LA CANTIDAD DE ELEMENTOS QUE HAY DENTRO DEL ARCHIVO
 
-    // async getByIdRandom () {
+    async getByIdRandom () {
 
-    //     try {
-    //         const archivos = await fs.promises.readFile(`./${this.name}.txt`, 'utf-8')
-    //         const archivoParse = JSON.parse(archivos)
-    //         let idRandom = Math.floor(Math.random() * archivoParse.length) + 1
-    //         const productoEncontrado = archivoParse.find(archivo => archivo.id === idRandom)
-    //         if(!productoEncontrado) {
-    //             throw new Error('No fue encontrado')
-    //         }
-    //         // console.log(productoEncontrado)
-    //         // elementosRandom = productoEncontrado
-    //         return productoEncontrado
-    //     } catch (error) {
-    //         console.log('El archivo no existe', error)
-    //     }
-    // }
+        try {
+            const archivos = await fs.promises.readFile(`./${this.name}.txt`, 'utf-8')
+            const archivoParse = JSON.parse(archivos)
+            let idRandom = Math.floor(Math.random() * archivoParse.length) + 1
+            const productoEncontrado = archivoParse.find(archivo => archivo.id === idRandom)
+            if(!productoEncontrado) {
+                throw new Error('No fue encontrado')
+            }
+            // console.log(productoEncontrado)
+            // elementosRandom = productoEncontrado
+            return productoEncontrado
+        } catch (error) {
+            console.log('El archivo no existe', error)
+        }
+    }
     
     // async getAllNew () {
     //     try {
@@ -135,14 +136,22 @@ const productos = new Contenedor('productos')
 
 
 
+// const traerProd = async () => {
+//     lista = JSON.stringify( await productos.getAll())
+//     console.log(lista)
+// }
+
+// traerProd()
+
+
+
 const getProducts = async () => {
     listProducts = JSON.stringify(await productos.getAll());
     return listProducts;
 }
 
-const getProductRandom = async (min, max) => {
-    let id = Math.floor(Math.random() * (max - min) + min)
-    let randomProduct = JSON.stringify(await productos.getById(id));
+const getProductRandom = async () => {
+    let randomProduct = JSON.stringify(await productos.getByIdRandom());
     return randomProduct;
 }
 
@@ -155,7 +164,7 @@ app.get('/productos',async (req, res) => {
 })
 
 app.get('/productosRandom',async (req, res) => {
-    res.send(`<h1>El producto es:</h1> ${await getProductRandom(1, await productos.getLength()).catch("Error")}`);
+    res.send(`<h1>El producto es:</h1> ${await getProductRandom().catch("Error")}`);
 })
 
 const PORT = process.env.PORT || 3003;
