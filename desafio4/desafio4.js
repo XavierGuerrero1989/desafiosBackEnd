@@ -5,18 +5,18 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use('/api/productos', express.static('productos'))
+app.use('/api/productos/p', express.static('productos'))
 
 const productos = []
 
-const routerProductos = new Router()
-
+// const routerProductos = new Router()
+const routerProductos = express.Router()
 
 routerProductos.get('/', (req, res) => {
     res.json(productos)
 })
 
-routerProductos.post('/', (req, res) => {
+routerProductos.post('/p', (req, res) => {
     if (productos.length == 0){
     productos.push({...req.body, id: 1} )
     res.json('Se creo exitosamente el nuevo producto con el id: 1')
@@ -28,7 +28,7 @@ routerProductos.post('/', (req, res) => {
 })
 
 routerProductos.get('/:id', (req, res) => {
-    let id = req.param.id
+    let id = req.params.id
    let resultado = productos.filter( function (productos) {
                 return productos.id == id
                 
@@ -58,7 +58,7 @@ routerProductos.delete('/:id', (req, res) => {
 })
 
 
-app.use('/productos', routerProductos)
+app.use('/api/productos', routerProductos)
 
   
 const server = app.listen(8080, () => {
