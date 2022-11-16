@@ -1,31 +1,33 @@
 const express = require('express')
-const { Router } = express
+// const { Router } = express
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use('/api/productos/p', express.static('productos'))
+app.use('/', express.static('public'))
 
 const productos = []
 
 // const routerProductos = new Router()
 const routerProductos = express.Router()
 
+routerProductos.post('/', (req, res) => {
+    if (productos.length == 0){
+    productos.push({...req.body, id: 1} )
+    res.json('Se creo exitosamente el nuevo producto con el id: 1')
+    } else {
+        const ultimoId = productos.reverse()
+    productos.push({...req.body, id: ultimoId[0].id + 1} )
+    res.json('Se creo exitosamente el nuevo producto con el id: ' + (ultimoId[0].id + 1))
+    }
+})
+
 routerProductos.get('/', (req, res) => {
     res.json(productos)
 })
 
-routerProductos.post('/p', (req, res) => {
-    if (productos.length == 0){
-    productos.push({...req.body, id: 1} )
-    res.json('Se creo exitosamente el nuevo producto con el id: 1')
-    }
 
-    const ultimoId = productos.reverse()
-    productos.push({...req.body, id: ultimoId[0].id + 1} )
-    res.json('Se creo exitosamente el nuevo producto con el id: ' + (ultimoId[0].id + 1))
-})
 
 routerProductos.get('/:id', (req, res) => {
     let id = req.params.id
