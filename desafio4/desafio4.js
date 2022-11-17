@@ -5,7 +5,7 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use('/api/productos', express.static('public'))
+app.use('/api', express.static('public'))
 
 const productos = []
 
