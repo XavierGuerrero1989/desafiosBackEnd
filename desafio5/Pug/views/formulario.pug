@@ -1,0 +1,17 @@
+extends layout
+
+block formulario
+    form(action='/productos' method='post')
+    .form-group
+        label(for='nombre')
+        b Nombre
+        input#nombre.form-control(type='text' name='nombre')
+    .form-group
+        label(for='precio')
+        b Precio
+        input#precio.form-control(type='number' name='precio')
+    .form-group
+        label(for='url')
+        b URL imagen
+        input#url.form-control(type='text' name='url')
+    button.btn.btn-success.mt-3.mb-5 Enviar
