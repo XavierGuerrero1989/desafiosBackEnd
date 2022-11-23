@@ -10,6 +10,8 @@ app.engine('handlebars', handlebars.engine({
 
 app.set('views', './views')
 app.set('view engine', 'handlebars')
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
 
 const productos = []
 
@@ -20,13 +22,15 @@ app.get('/', (req, res) => {
 
 
 app.get('/productos', (req, res) => {
-    res.render('historial', {productos})
+    res.render('historial', { productos })
+    console.log(productos)
 })
 
 // post
 
 app.post('/productos', (req, res) => {
     productos.push(req.body)
+    console.log(req.body)
     res.redirect('/')
 })
 
