@@ -15,7 +15,6 @@ const productos = []
 // get
 
 app.get('/productos', (req, res) => {
-    console.log(productos)
     res.render('layout', {productos})
 })
 
@@ -27,7 +26,7 @@ app.post('/productos', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.render('formulario', req.query)
+    res.render('formulario', {productos})
 })
 
 
